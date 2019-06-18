@@ -8,4 +8,4 @@
           android:padding="16dp"
           android:textIsSelectable="true"
           tools:context=".ItemDetailFragment" android:textAppearance="@style/TextAppearance.AppCompat.Small"
-          android:textSize="6sp" android:fontFamily="monospace"/>
+          android:textSize="10sp" android:fontFamily="monospace"/>
