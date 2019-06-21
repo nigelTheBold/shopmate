@@ -23,6 +23,7 @@ class DbProductSourceTest {
         db.productDao().insert(sampleData.sampleProducts())
         db.productTaxDao().insert(sampleData.sampleProductTax())
         db.basketDao().insert(sampleData.sampleBaskets())
+        db.basketContentsDao().insert(sampleData.sampleBasketItems())
     }
 
     @After

@@ -28,7 +28,7 @@ class ShopMateApp: Application() {
                 dataReadyNotification?.invoke()
             }
 
-            dbSource.basketDao().getBasketNames()
+            dbSource.basketContentsDao().getBasketNames()
         }
     }
 }

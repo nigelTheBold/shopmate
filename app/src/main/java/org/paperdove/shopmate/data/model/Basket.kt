@@ -12,16 +12,22 @@ package org.paperdove.shopmate.data.model
  * @property pretaxCost The total cost of all items before taxes are applied
  * @property applicableTaxes The total taxes applicable to this *BasketItem*
  */
-data class BasketItem(
-    val product: Product,
-    val quantity: Int,
+interface BasketItem {
+    val product: Product
+    val quantity: Int
     val taxes: List<Tax>
-) {
+
     val pretaxCost: Float
         get() = round2(product.price * quantity)
     val applicableTaxes: Float
         get() = taxes.fold(0f) { totalTax, tax -> totalTax + tax.calculateTax(pretaxCost) }
 }
+
+data class SimpleBasketItem(
+    override val product: Product,
+    override val quantity: Int,
+    override val taxes: List<Tax>
+): BasketItem
 
 /**
  * A basket full of products
@@ -32,7 +38,12 @@ data class BasketItem(
  * @property items A collection of [BasketItem]
  *
  */
-data class Basket(val name: String, val items: List<BasketItem>) {
+
+interface Basket {
+    val name: String
+    var items: List<BasketItem>
+    var open: Boolean
+
     val totalPretax: Float
         get() = items.fold(0f) { total, item -> round2(item.product.price * item.quantity + total) }
 
@@ -47,5 +58,6 @@ data class Basket(val name: String, val items: List<BasketItem>) {
             Sales Taxes: ${String.format("$%.02f", totalTax)}
             Total: ${String.format("$%.02f", total)}
             """
-
 }
+
+data class SimpleBasket(override val name: String, override var items: List<BasketItem>, override var open: Boolean = false): Basket

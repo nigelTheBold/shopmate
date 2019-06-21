@@ -36,22 +36,30 @@ class SampleData {
         )
     }
 
-    fun sampleBaskets(): List<DbBasketContents> {
+    fun sampleBaskets(): List<DbBasket> {
+        return listOf(
+            DbBasket("Shopping Basket 1", true),
+            DbBasket("Shopping Basket 2", true),
+            DbBasket("Shopping Basket 3", true)
+        )
+    }
+
+    fun sampleBasketItems(): List<DbBasketItem> {
         return listOf(
             // Basket 1
-            DbBasketContents("Shopping Basket 1", skittles.name, 1),
-            DbBasketContents("Shopping Basket 1", walkman.name, 1),
-            DbBasketContents("Shopping Basket 1", popcorn.name, 1),
+            DbBasketItem("Shopping Basket 1", skittles.name, 1),
+            DbBasketItem("Shopping Basket 1", walkman.name, 1),
+            DbBasketItem("Shopping Basket 1", popcorn.name, 1),
 
             // Basket 2
-            DbBasketContents("Shopping Basket 2", vanillaHazelnutCoffee.name, 1),
-            DbBasketContents("Shopping Basket 2", vespa.name, 1),
+            DbBasketItem("Shopping Basket 2", vanillaHazelnutCoffee.name, 1),
+            DbBasketItem("Shopping Basket 2", vespa.name, 1),
 
             // Basket 3
-            DbBasketContents("Shopping Basket 3", almondSnickers.name, 1),
-            DbBasketContents("Shopping Basket 3", discman.name, 1),
-            DbBasketContents("Shopping Basket 3", wine.name, 1),
-            DbBasketContents("Shopping Basket 3", fairTradeCoffee.name, 1)
+            DbBasketItem("Shopping Basket 3", almondSnickers.name, 1),
+            DbBasketItem("Shopping Basket 3", discman.name, 1),
+            DbBasketItem("Shopping Basket 3", wine.name, 1),
+            DbBasketItem("Shopping Basket 3", fairTradeCoffee.name, 1)
         )
     }
 }

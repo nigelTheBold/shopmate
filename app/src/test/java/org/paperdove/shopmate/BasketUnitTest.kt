@@ -2,10 +2,7 @@ package org.paperdove.shopmate
 
 import junit.framework.Assert.assertEquals
 import org.junit.Test
-import org.paperdove.shopmate.data.model.Basket
-import org.paperdove.shopmate.data.model.BasketItem
-import org.paperdove.shopmate.data.model.Product
-import org.paperdove.shopmate.data.model.Tax
+import org.paperdove.shopmate.data.model.*
 
 class BasketUnitTest {
     val basicTax = object: Tax {
@@ -37,11 +34,11 @@ class BasketUnitTest {
 
     @Test
     fun simpleBasket1() {
-        val basket = Basket(
+        val basket = SimpleBasket(
             "Shopping Basket 1", arrayListOf(
-                BasketItem(skittles, 1, none),
-                BasketItem(walkman, 1, basic),
-                BasketItem(microwavePopcorn, 1, none)
+                SimpleBasketItem(skittles, 1, none),
+                SimpleBasketItem(walkman, 1, basic),
+                SimpleBasketItem(microwavePopcorn, 1, none)
             )
         )
 
@@ -52,10 +49,10 @@ class BasketUnitTest {
 
     @Test
     fun simpleBasket2() {
-        val basket = Basket(
+        val basket = SimpleBasket(
             "Shopping Basket 2", arrayListOf(
-                BasketItem(vanillaHazelnutCoffee, 1, exempt),
-                BasketItem(vespa, 1, imported)
+                SimpleBasketItem(vanillaHazelnutCoffee, 1, exempt),
+                SimpleBasketItem(vespa, 1, imported)
             )
         )
 
@@ -65,12 +62,12 @@ class BasketUnitTest {
 
     @Test
     fun simpleBasket3() {
-        val basket = Basket(
+        val basket = SimpleBasket(
             "Shopping Basket 1", arrayListOf(
-                BasketItem(almondSnickers, 1, exempt),
-                BasketItem(discman, 1, basic),
-                BasketItem(bottleOfWine, 1, imported),
-                BasketItem(fairTradeCoffee, 1, none)
+                SimpleBasketItem(almondSnickers, 1, exempt),
+                SimpleBasketItem(discman, 1, basic),
+                SimpleBasketItem(bottleOfWine, 1, imported),
+                SimpleBasketItem(fairTradeCoffee, 1, none)
             )
         )
 
