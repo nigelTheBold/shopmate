@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ShopMate</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="no_items">There are no items in this basket</string>
 </resources>

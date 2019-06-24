@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_item_detail.*
+import kotlin.concurrent.thread
 
 /**
  * An activity representing a single Item detail screen. This
@@ -21,25 +22,32 @@ class ItemDetailActivity : AppCompatActivity() {
         setSupportActionBar(detail_toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
-            val fragment = ItemDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        ItemDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
-                    )
+            thread {
+                val basketName = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
+                val basket = ShopMateApp.productSource.basket(basketName)
+                val fragment = if (basket.open) EditBasketFragment() else ItemDetailFragment()
+
+                fragment.apply {
+                    arguments = Bundle().apply {
+                        putString(
+                            ItemDetailFragment.ARG_ITEM_ID,
+                            intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
+                        )
+                    }
+                }
+
+                fab.post {
+                    supportFragmentManager.beginTransaction()
+                        .add(R.id.item_detail_container, fragment)
+                        .commit()
                 }
             }
-
-            supportFragmentManager.beginTransaction()
-                .add(R.id.item_detail_container, fragment)
-                .commit()
         }
     }
 

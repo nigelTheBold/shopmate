@@ -78,7 +78,7 @@ abstract class DbProductSource: RoomDatabase(), ProductSource {
     }
 
     override fun allBasketsNames(): List<String> {
-        return basketContentsDao().getBasketNames()
+        return basketDao().getBasketNames()
     }
     override fun allProductNames(): List<String> {
         return productDao().getProductNames()
@@ -106,5 +106,11 @@ abstract class DbProductSource: RoomDatabase(), ProductSource {
         if (basket.open) {
             basketContentsDao().insert(basket.items.map { it as? DbBasketItem ?: DbBasketItem(basket.name, it.product.name, it.quantity, this) })
         }
+    }
+
+    override fun newBasket(): Basket {
+        val basket = DbBasket("Shopping Basket ${basketDao().getBasketCount() + 1}", true, this)
+        basketDao().insert(basket)
+        return basket
     }
 }

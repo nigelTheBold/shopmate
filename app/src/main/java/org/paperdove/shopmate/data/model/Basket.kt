@@ -1,5 +1,7 @@
 package org.paperdove.shopmate.data.model
 
+import org.paperdove.shopmate.data.ProductSource
+
 
 /**
  * One item, of any quantity
@@ -16,6 +18,7 @@ interface BasketItem {
     val product: Product
     val quantity: Int
     val taxes: List<Tax>
+    val source: ProductSource?
 
     val pretaxCost: Float
         get() = round2(product.price * quantity)
@@ -26,7 +29,8 @@ interface BasketItem {
 data class SimpleBasketItem(
     override val product: Product,
     override val quantity: Int,
-    override val taxes: List<Tax>
+    override val taxes: List<Tax>,
+    override val source: ProductSource? = null
 ): BasketItem
 
 /**
@@ -43,6 +47,7 @@ interface Basket {
     val name: String
     var items: List<BasketItem>
     var open: Boolean
+    var source: ProductSource?
 
     val totalPretax: Float
         get() = items.fold(0f) { total, item -> round2(item.product.price * item.quantity + total) }
@@ -60,4 +65,6 @@ interface Basket {
             """
 }
 
-data class SimpleBasket(override val name: String, override var items: List<BasketItem>, override var open: Boolean = false): Basket
+data class SimpleBasket(override val name: String, override var items: List<BasketItem>, override var open: Boolean = false,
+                        override var source: ProductSource? = null
+): Basket

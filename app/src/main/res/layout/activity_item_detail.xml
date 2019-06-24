@@ -40,7 +40,9 @@
             android:id="@+id/item_detail_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:background="#03A9F4"
+            android:layout_gravity="fill|fill_horizontal|fill_vertical"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

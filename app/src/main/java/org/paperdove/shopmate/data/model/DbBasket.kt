@@ -8,7 +8,7 @@ import org.paperdove.shopmate.data.ProductSource
 data class DbBasket (
     @PrimaryKey override var name: String,
     override var open: Boolean,
-    @Ignore var source: ProductSource? = null
+    @Ignore override var source: ProductSource? = null
 ): Basket {
     constructor() : this("EmptyBasket", false)
 
@@ -45,6 +45,9 @@ abstract class BasketDao: BaseDao<DbBasket> {
 
     @Query("SELECT * from basket")
     abstract fun getAllBaskets(): List<DbBasket>
+
+    @Query("SELECT COUNT(*) FROM basket")
+    abstract fun getBasketCount(): Int
 }
 
 @Entity(tableName = "basket_item",
@@ -59,7 +62,7 @@ data class DbBasketItem (
     @ColumnInfo(name = "basket") var name: String,
     @ColumnInfo(name = "product") var productName: String,
     override var quantity: Int,
-    @Ignore var source: ProductSource? = null
+    @Ignore override var source: ProductSource? = null
 ): BasketItem {
     constructor() : this("EmptyBasket", "NoProduct", 0)
 

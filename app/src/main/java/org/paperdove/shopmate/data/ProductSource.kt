@@ -13,4 +13,5 @@ interface ProductSource {
     fun basket(named: String): Basket
     fun contentsOf(basket: Basket): List<BasketItem>
     fun save(basket: Basket)
+    fun newBasket(): Basket
 }

@@ -10,9 +10,15 @@ object DataContent {
     val ITEM_MAP: MutableMap<String, Basket> = HashMap()
 
     init {
-        val baskets = ShopMateApp.dbSource.allBasketsNames()
+        refresh()
+    }
+
+    fun refresh() {
+        ITEMS.clear()
+        ITEM_MAP.clear()
+        val baskets = ShopMateApp.productSource.allBasketsNames()
         baskets.forEach {
-            addItem(ShopMateApp.dbSource.basket(it))
+            addItem(ShopMateApp.productSource.basket(it))
         }
     }
 

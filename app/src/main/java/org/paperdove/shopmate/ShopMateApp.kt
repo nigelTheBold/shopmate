@@ -17,18 +17,18 @@ class ShopMateApp: Application() {
                 field = notification
             }
         var sources = ArrayList<ProductSource>()
-        lateinit var dbSource: DbProductSource
+        lateinit var productSource: ProductSource
     }
 
     override fun onCreate() {
         super.onCreate()
         thread {
-            dbSource = DbProductSource.getInstance(this) {
+            productSource = DbProductSource.getInstance(this) {
                 init = true
                 dataReadyNotification?.invoke()
             }
 
-            dbSource.basketContentsDao().getBasketNames()
+            productSource.allBasketsNames()
         }
     }
 }
