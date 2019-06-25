@@ -3,7 +3,8 @@ package org.paperdove.shopmate.data.model
 import androidx.room.*
 import org.paperdove.shopmate.data.ProductSource
 
-
+//----------------------------------------------------------------------
+//--- DbBasket ---------------------------------------------------------
 @Entity(tableName = "basket")
 data class DbBasket (
     @PrimaryKey override var name: String,
@@ -34,9 +35,6 @@ data class DbBasket (
 
 @Dao
 abstract class BasketDao: BaseDao<DbBasket> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(basket: DbBasket)
-
     @Query("SELECT name FROM basket")
     abstract fun getBasketNames(): List<String>
 
@@ -50,6 +48,8 @@ abstract class BasketDao: BaseDao<DbBasket> {
     abstract fun getBasketCount(): Int
 }
 
+//----------------------------------------------------------------------
+//--- DbBasketItem -----------------------------------------------------
 @Entity(tableName = "basket_item",
     primaryKeys = ["basket", "product"],
     indices = [Index("basket"), Index("product")],
@@ -93,12 +93,6 @@ data class DbBasketItem (
 
 @Dao
 abstract class BasketContentsDao: BaseDao<DbBasketItem> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(contents: DbBasketItem)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertContents(contents: List<DbBasketItem>)
-
     @Query("SELECT distinct(basket) FROM basket_item")
     abstract fun getBasketNames(): List<String>
 

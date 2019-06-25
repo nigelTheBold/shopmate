@@ -9,7 +9,6 @@ import android.widget.TextView
 
 import org.paperdove.shopmate.data.DataContent
 import kotlinx.android.synthetic.main.activity_item_list.*
-import kotlinx.android.synthetic.main.item_edit.*
 import kotlinx.android.synthetic.main.item_list_content.view.*
 import kotlinx.android.synthetic.main.item_list.*
 import org.paperdove.shopmate.data.model.Basket
@@ -117,8 +116,7 @@ class ItemListActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
             holder.idView.text = item.name
-            //holder.contentView.text = item.receipt
-
+            holder.state.setImageResource(if (item.open) R.drawable.add_shopping_cart_white_48 else R.drawable.check_circle)
             with(holder.itemView) {
                 tag = item
                 setOnClickListener(onClickListener)
@@ -128,8 +126,8 @@ class ItemListActivity : AppCompatActivity() {
         override fun getItemCount() = values.size
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val state = view.stateImage
             val idView: TextView = view.id_text
-            val contentView: TextView = view.content
         }
     }
 }

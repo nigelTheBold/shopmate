@@ -5,12 +5,12 @@ class SampleData {
     val importTax = DbTax("Import Duty", 5f, 0.05f)
 
     val skittles = DbProduct("16lb bag of Skittles",16.000f)
-    val walkman = DbProduct("Walkman", 99.990f)
+    val walkman = DbProduct("Walkman", 99.99f)
     val popcorn = DbProduct("bag of microwave Popcorn", 0.990f)
     val vanillaHazelnutCoffee = DbProduct("imported bag of Vanilla-Hazelnut Coffee", price = 11.00f)
     val vespa = DbProduct("Imported Vespa", 15001.25f)
     val almondSnickers = DbProduct("imported crate of Almond Snickers",75.99f)
-    val discman = DbProduct("Discman", 55.00f)
+    val discman = DbProduct("Discman", 55.50f)
     val wine = DbProduct("Imported Bottle of Wine", 10.00f)
     val fairTradeCoffee = DbProduct("300# bag of Fair-Trade Coffee", 997.99f)
 

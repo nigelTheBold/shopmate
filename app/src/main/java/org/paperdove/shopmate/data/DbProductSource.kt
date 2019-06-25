@@ -60,6 +60,12 @@ abstract class DbProductSource: RoomDatabase(), ProductSource {
                                 .insert(sampleData.sampleBaskets())
                             getInstance(context).basketContentsDao()
                                 .insert(sampleData.sampleBasketItems())
+
+                            getInstance(context).basketDao().getAllBaskets().forEach {
+                                it.open = false
+                                getInstance(context).save(it)
+                            }
+
                             onReady?.invoke()
                         }
                     }

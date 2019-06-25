@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:orientation="horizontal">
+              android:orientation="horizontal" android:gravity="center_vertical">
 
+    <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp" app:srcCompat="@drawable/check_circle" android:id="@+id/stateImage"
+            android:layout_weight="1" android:backgroundTint="#3F51B5" android:tint="#3F51B5"/>
     <TextView
             android:id="@+id/id_text"
             android:layout_width="wrap_content"
@@ -11,10 +15,4 @@
             android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem"/>
 
-    <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem"/>
 </LinearLayout>

@@ -9,6 +9,7 @@ import org.paperdove.shopmate.data.DataContent
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 import org.paperdove.shopmate.data.model.Basket
+import kotlin.concurrent.thread
 
 /**
  * A fragment representing a single Item detail screen.
@@ -24,11 +25,8 @@ class ItemDetailFragment : Fragment() {
 
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
-                // Load the dummy content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
                 item = DataContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-                activity?.toolbar_layout?.title = item?.name
+                //activity?.toolbar_layout?.title = item?.name
             }
         }
     }
@@ -39,9 +37,13 @@ class ItemDetailFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.item_detail, container, false)
 
-        // Show the dummy content as text in a TextView.
         item?.let {
-            rootView.item_detail.text = it.receipt
+            thread {
+                val receipt = it.receipt
+                rootView.post {
+                    rootView.item_detail.text = receipt
+                }
+            }
         }
 
         return rootView
