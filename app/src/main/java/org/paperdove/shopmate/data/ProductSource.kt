@@ -8,6 +8,7 @@ import org.paperdove.shopmate.data.model.Tax
 interface ProductSource {
     fun allBasketsNames(): List<String>
     fun allProductNames(): List<String>
+    fun allProducts(): List<Product>
     fun product(named: String): Product
     fun taxesForProduct(named: String): List<Tax>
     fun basket(named: String): Basket

@@ -3,10 +3,8 @@ package org.paperdove.shopmate
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import org.paperdove.shopmate.data.model.Basket
 import kotlin.concurrent.thread
@@ -56,7 +54,14 @@ class ItemDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.checkout -> {
-                fragment.saveAndClose()
+                fragment.saveAndClose {
+                    thread {
+                        basket = ShopMateApp.productSource.basket(basket.name)
+                        detail_toolbar.post {
+                            invalidateOptionsMenu()
+                        }
+                    }
+                }
                 true
             }
             android.R.id.home -> {

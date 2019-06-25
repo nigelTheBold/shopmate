@@ -41,6 +41,11 @@ class ItemListActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupRecyclerView(item_list)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if (twoPane) {
             menuInflater.inflate(R.menu.main, menu)

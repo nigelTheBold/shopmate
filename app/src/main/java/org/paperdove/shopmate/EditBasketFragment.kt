@@ -1,20 +1,26 @@
 package org.paperdove.shopmate
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.basket_item_list_content.view.*
 import kotlinx.android.synthetic.main.basket_total.view.*
 import org.paperdove.shopmate.data.model.Basket
 import kotlinx.android.synthetic.main.item_edit.*
+import org.paperdove.shopmate.data.model.Product
 import kotlin.concurrent.thread
 
 class EditBasketFragment : Fragment() {
     private var item: Basket? = null
     private var basketName = ""
+    lateinit var allProducts: List<Product>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,36 +43,85 @@ class EditBasketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         thread {
+            allProducts = ShopMateApp.productSource.allProducts()
             item = ShopMateApp.productSource.basket(basketName)
-            val count = item?.items?.count() ?: 0
             fab.post {
-                if (item?.open == true) {
-                    fab.show()
-                    fab.setOnClickListener {
-                        addNewItem()
+                fab.setOnClickListener {
+                    val basket = item
+                    basket?.let {
+                        addNewItem(basket) {
+                            displayItems()
+                        }
                     }
-                } else {
-                    fab.hide()
                 }
 
-                if (count > 0) {
-                    no_contents_message.visibility = View.GONE
-                    item?.let {
-                        product_list.adapter = BasketAdapter(it)
+                displayItems()
+            }
+        }
+    }
+
+    fun displayItems() {
+        val basket = item
+        basket?.let {
+            thread {
+                val count = basket.items.count() ?: 0
+
+                fab.post {
+                    if (basket.open) {
+                        fab.show()
+                    } else {
+                        fab.hide()
                     }
+
+                    if (count > 0) {
+                        no_contents_message.visibility = View.GONE
+                    }
+                    product_list.adapter = BasketAdapter(basket)
                 }
             }
         }
     }
 
-    fun addNewItem() {
+    fun addNewItem(basket: Basket, cb: () -> Unit) {
+        val view = LayoutInflater.from(context!!).inflate(R.layout.product_select_list, null)
+        val recycler = view.findViewById<RecyclerView>(R.id.productRecyclerView)
+        val ok = view.findViewById<Button>(R.id.ok)
+        val cancel = view.findViewById<Button>(R.id.cancel)
+        recycler.addItemDecoration(DividerItemDecoration(recycler.context, DividerItemDecoration.VERTICAL))
+        val adapter = ProductSelection(basket, allProducts)
+        recycler.adapter = adapter
+        val popup = PopupWindow(view, (product_list.width * 0.9).toInt(), (product_list.height * 0.9).toInt())
+        popup.elevation = 1.0f
 
+        ok.setOnClickListener {v ->
+            basket.clearItems()
+            adapter.getSelected().forEach { basket.addItem(it) }
+            popup.dismiss()
+            cb()
+        }
+
+        cancel.setOnClickListener {v ->
+            popup.dismiss()
+        }
+
+        popup.showAtLocation(product_list, Gravity.CENTER,0,0);
     }
 
-    fun saveAndClose() {
+    fun saveAndClose(cb: () -> Thread) {
+        val basket = item
+        basket?.let {
+            thread {
+                ShopMateApp.productSource.save(basket)
+                basket.open = false
+                ShopMateApp.productSource.save(basket)
 
+                fab.post {
+                    displayItems()
+                    cb()
+                }
+            }
+        }
     }
-
 
     class BasketAdapter(private val basket: Basket): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -122,6 +177,9 @@ class EditBasketFragment : Fragment() {
         val count = view.count
         val product = view.product
         val price = view.price
+        init {
+            view.checkBox.visibility = View.GONE
+        }
     }
 
     companion object {

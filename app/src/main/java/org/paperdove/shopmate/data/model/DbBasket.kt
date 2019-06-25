@@ -31,6 +31,14 @@ data class DbBasket (
         _items?.forEach { if (it is DbBasketItem) {it.setSource(source)} }
         return this
     }
+
+    override fun clearItems() {
+        (_items as ArrayList).clear()
+    }
+
+    override fun addItem(product: Product) {
+        (_items as ArrayList).add(DbBasketItem(name, product.name, 1, source))
+    }
 }
 
 @Dao

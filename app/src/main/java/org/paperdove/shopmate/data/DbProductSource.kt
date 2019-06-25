@@ -90,6 +90,10 @@ abstract class DbProductSource: RoomDatabase(), ProductSource {
         return productDao().getProductNames()
     }
 
+    override fun allProducts(): List<Product> {
+        return productDao().getAll()
+    }
+
     override fun product(named: String): Product {
         return productDao().getProduct(named)
     }

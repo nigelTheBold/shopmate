@@ -63,6 +63,9 @@ interface Basket {
             Sales Taxes: ${String.format("$%.02f", totalTax)}
             Total: ${String.format("$%.02f", total)}
             """
+
+    fun clearItems() {}
+    fun addItem(product: Product) {}
 }
 
 data class SimpleBasket(override val name: String, override var items: List<BasketItem>, override var open: Boolean = false,
